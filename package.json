@@ -1,0 +1,20 @@
+{
+  "name": "lilcryptjs",
+  "version": "1.5.0",
+  "description": "a javascript encryption library for encrypting data",
+  "main": "./dist/crypt.js",
+  "scripts": {
+    "test": "run:crypt"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://iamGodskid.github.io/lilcryptJS"
+  },
+  "keywords": [
+    "encryption",
+    "encryption",
+    "library"
+  ],
+  "author": "Uzodimma Joseph",
+  "license": "ISC"
+}
