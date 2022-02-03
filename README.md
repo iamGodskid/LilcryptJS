@@ -10,6 +10,10 @@ A small promise based Javascript encryption library
 then you an now use...
 #### note
 Lilcrypt provides three major encryption modes...
+And for now has no support for numeric encryption or decryption..
+
+
+
 
 ### hyper
 ### bios
