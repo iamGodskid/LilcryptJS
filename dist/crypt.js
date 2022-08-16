@@ -1,180 +1,128 @@
+
 var Crypt=(function(){
-  "use strict";
-  this.encrypted= [];
-  this.concatted = [];
-
-  this.decrypted=[];
-  this.encryptmode = ["hyper", "bios", "xor"];
-  this.parsed = {};
-  
-  this.encrypt=(m, opt)=>{
-  
-    if(!m && !opt) console.warn("encrypt method requires atleast two parameters");
-    if(m === undefined ||opt === undefined) throw Error("undefined expressions in parameter");
-    if(!m || !opt) throw Error("one parameter given, two required");
-    else{
-      
-      let mode = m;
-      let data = opt.data;
-     if(typeof data === "function") throw Error("function not accepted as encryptable")
-     
-       if(this.encryptmode.includes(mode) == true){
-        
-        return new Promise(encr=>{
-        const en = this.encryptor(data, mode);
-        encr(en);
-        })
-       
-        
-      }
-    
-      
-    }
-  } 
-  
-  this.decrypt=(opts)=>{
-  
-    if(!opts) console.warn("decrypt method requires atleast one parameters");
-    if(typeof opts === undefined) throw Error("undefined expressions in parameter");
-    if(!opts) throw Error("null params given");
-    else{
-
-
-      let dataa = opts.data;
-     if(typeof dataa === "function") throw Error("function not accepted as encryptable")
-      
-        return new Promise(decr=>{
-        const n = this.decryptor(dataa);
-        decr(n);
-        })
-       
-        
-      }
-    
-      
-    }
-    
-
-  const label = {
-" ": "_",
-    "a":'√',
-    "b":'π',
-    "c":'°',
-    "d":'®',
-    "e":'€',
-    "f":'£',
-    "g":'¥',
-    "h":'©',
-    "i":'✓',
-    "j":'@',
-    "k":'!',
-    "l":'~',
-    "m":'#',
-    "n":'%',
-    "o":'^',
-    "p":'*',
-    "q":'&',
-    "r":')',
-    "s":'0',
-    "t":'{',
-    "u":'-',
-    "v":'=',
-    "w":']',
-    "x":'.',
-    "y":"?",
-    "z":"<",
-  };
-  const delabel = {
-"_":" ",
-    "√":"a",
-    "π":"b",
-    "°":"c",
-    "®":"d", 
-    "€":'e',
-    "£":'f',
-    "¥":'g',
-    "©":'h',
-    "✓":'i',
-    "@":'j',
-    "!":'k',
-    "~":'l',
-    "#":'m',
-    "%":'n',
-    "^":'o',
-    "*":'p',
-    "&":'q',
-    ")":'r',
-    "0":'s',
-    "}":'t',
-    "-":'u',
-    "=":'v',
-    "]":'w',
-    ".":'x',
-    "?":"y",
-    "<":"z",
+ "use strict";
+let caches = {
+    " ": "~",
+    "a":"z",
+    "b":"y",
+    "c":"x",
+    "d":"w",
+    "e": "v",
+    "f":"u",
+    "g": "t",
+    "h":"s",
+    "i":"r",
+    "j":"q",
+    "k":"p",
+    "l":"o",
+    "m":"n",
+    "n":"m",
+    "o":"l",
+    "p":"k",
+    "q":"j",
+    "r":"i",
+    "s":"h",
+    "t":"g",
+    "u":"f",
+    "v":"e",
+    "w":"d",
+    "x":"c",
+    "y":"b",
+    "z":"a"
   }
-const breaker = [];
-const done = [];
-  this.decryptor=(op)=>{
-    const checkreg = /bios/gi;
-    const checkr = /hyper/gi;
-    const checkre = /xor/gi;
-    const seperator = new RegExp(/,/gi);
-    const regs = [checkreg, checkr, checkre];
-    const dec = op;
-    //check if encryptor in text
-    
-    for(const reg of regs){
-   if(reg.test(dec) === true){
-     const rep = dec.replace(reg, ",");
-     console.log(reg.test(dec));
-     breaker.push(rep);
+  let caches_space={
+    " ": "~",
+    "~": " "
+  }
+let avail_encrypt=["$$"];
+ 
+ this.encrypt=function(param, callback){
+let $this=param;
+try{
+  if(typeof($this) !== "object"){
+   return callback("", "typeof param[1] is not object")
+  }
+}catch(err){
+  console.warn(err)
+}
+  let $$ = $this.encryptType;
+  
+  let data;
+  data = $this.data.toLowerCase();
+  
+  let reversable = "";
+  let result=[];
+  
+  
+  //proceed to process
+  if(avail_encrypt.includes($$) == false) return callback("", "encryptType not supported");
+  let karr=[]
+  data.split("").forEach(key_in=>{
+  //let karr=[];
+ // karr.push(key_in)
+ // karr.reverse();
+ // for(var i=0;i<karr.length;i++){
+  let hold;
+   if(key_in in caches){
+    hold = $$+caches[key_in]+$$;
+}else if(/\W/gim.test(key_in)==true){
+  hold = $$+key_in+$$;
+}else if(/\d/gim.test(key_in)==true){
+  hold=$$+key_in+$$;
+}
+  // callback(hold, '')
+   reversable+=hold;
+  // reversable.reverse();
+  result.push(reversable)
+  result.reverse()
+   
+  // callback(karr, "")
+  })
+return  callback(result[0], "")
+  
+  
+  
+  /*
+  callback=function(d, e){
+    let ret = d || e;
+    if(d !== "null"){
+      return d;
+    }else if(e !== "null"){
+      return e;
+    }else{
+    }
+    }*/
+}
 
-     console.log(breaker)
+this.decrypt=function(decr, callback){
+  try{
+  if(typeof(decr)!=="string"){
+    return callback("", "typeof param[1] in decrypt not defined")
+  }
+  }catch(err){
+    
+  }
+  let $$this = decr;
+ let regstripper = /\$/gi;
+ let feedback = "";
+ let stripped = $$this.replace(regstripper, "");
+ callback(stripped, "");
+ let dex;
+ stripped.split("").forEach(key_out=>{
+   if(key_out in caches || key_out in caches_space){
+      dex = caches[key_out] || caches_space[key_out];
+   }else if(/\W/gim.test(key_out)==true){
+     dex=key_out;
+   }else if(/\d/gim.test(key_out)==true){
+     dex=key_out;
    }
-
-//converting to text
-
-const don = [];
-
-for(const con of breaker){
-  if(seperator.test(con)===true){
-    const repl = con.replace(seperator, " ");
-  for(var t of repl){
-    if(t in delabel){
-     const converted = t = delabel[t];
-     don.push(converted);
-    }
-  }
-  let parse = don.reduce((r, d)=>r+d).trim();
-  console.log(parse)
-  done.push(parse);
-  return done;
-  }
-}
-
-
-  }
-  }
-
-  this.encryptor=(d, mo)=>{
-    
-const dt = d;
-const regExp = /\s/;
-dt.slice(regExp);
-for(var i of dt){
-  if(i in label){
-i = label[i];
-  }
-const join = i.concat(mo);
-this.concatted.push(join);
-}
-let fin =this.concatted.reduce((a,b)=>a+b);
-let final = mo+fin;
-  this.encrypted.push(final);
-  return this.encrypted;
-
-
-  }
+     feedback+= dex;
+     
+   
+ })
+   callback(feedback, "")
+ 
   
+  
+}
 })
