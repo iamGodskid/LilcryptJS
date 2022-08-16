@@ -7,17 +7,9 @@ A small promise based Javascript encryption library
 <script src="path/to/LilcryptJS/crypt.js"></script>
 ```
 
-then you an now use...
-#### note
-Lilcrypt provides three major encryption modes...
-And for now has no support for numeric encryption or decryption..
-
-
-
-
-### hyper
-### bios
-### xor
+### Note
+|| lilcrypt offers an encryption type[$$]
+|| it takes a callback parameter where the result is returned
 
 ## USAGE
 
@@ -25,19 +17,20 @@ And for now has no support for numeric encryption or decryption..
 //encrypting and decrypting
 
 const x = new Crypt();
-x.encrypt("bios", {
+x.encrypt({
+encryptType:"$$",
 data: "lilcryptjs"
-})
-.then(res=>{
-console.log(res)
-})
+}, (data, err)=>{
+if(err) throw(err);
+console.log(data);
+});
 
 //decrypting
 x.decrypt({
-data: //encrypted data
-})
-.then(res=>{
-console.log(res)
-})
+data: "$$q$$$$v$$$$~$$$$e$$$$v$$$$"
+}, (data, err)=>{
+if(err) throw(err);
+console.log(data);
+});
 
 ```
