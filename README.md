@@ -1,5 +1,5 @@
 # LilcryptJS
-A small promise based Javascript encryption library
+A Javascript encryption library
 
 ### download via github and reference in html 
 
